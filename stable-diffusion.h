@@ -99,7 +99,7 @@ typedef void (*sd_progress_cb_t)(int step, int steps, float time, void* data);
 
 SD_API void sd_set_log_callback(sd_log_cb_t sd_log_cb, void* data);
 SD_API void sd_set_progress_callback(sd_progress_cb_t cb, void* data);
-SD_API int32_t get_num_physical_cores();
+
 SD_API const char* sd_get_system_info();
 
 typedef struct {
@@ -128,6 +128,29 @@ SD_API sd_ctx_t* new_sd_ctx(const char* model_path,
                             bool keep_clip_on_cpu,
                             bool keep_control_net_cpu,
                             bool keep_vae_on_cpu);
+
+
+SD_API sd_ctx_t* new_sd_ctx_direct(
+                            const char* lora_model_dir,
+                            bool vae_decode_only,
+                            bool free_params_immediately,
+                            int n_threads,
+                            enum rng_type_t rng_type);
+
+SD_API bool     sd_model_is_loaded();
+SD_API void     set_model_loaded();
+
+
+SD_API void     load_model(sd_ctx_t* sd_ctx,
+                            const char* model_path,
+                            const char* vae_path,
+                            const char* taesd_path,
+                            const char* control_net_path_c_str,
+                            const char* embed_dir_c_str,
+                            enum sd_type_t wtype,
+                            bool vae_tiling,
+                            enum schedule_t s,
+                            bool keep_control_net_cpu);
 
 SD_API void free_sd_ctx(sd_ctx_t* sd_ctx);
 

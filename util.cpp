@@ -195,6 +195,10 @@ std::vector<std::string> get_files_from_dir(const std::string& dir) {
 // get_num_physical_cores is copy from
 // https://github.com/ggerganov/llama.cpp/blob/master/examples/common.cpp
 // LICENSE: https://github.com/ggerganov/llama.cpp/blob/master/LICENSE
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int32_t get_num_physical_cores() {
 #ifdef __linux__
     // enumerate the set of thread siblings, num entries is num cores
@@ -229,6 +233,10 @@ int32_t get_num_physical_cores() {
     unsigned int n_threads = std::thread::hardware_concurrency();
     return n_threads > 0 ? (n_threads <= 4 ? n_threads : n_threads / 2) : 4;
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 static sd_progress_cb_t sd_progress_cb = NULL;
 void* sd_progress_cb_data              = NULL;

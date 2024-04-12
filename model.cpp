@@ -7,6 +7,8 @@
 #include <vector>
 
 #include "model.h"
+
+
 #include "stable-diffusion.h"
 #include "util.h"
 #include "vocab.hpp"
@@ -768,7 +770,6 @@ bool ModelLoader::init_from_gguf_file(const std::string& file_path, const std::s
         size_t offset             = data_offset + gguf_get_tensor_offset(ctx_gguf_, i);
 
         // LOG_DEBUG("%s", name.c_str());
-
         TensorStorage tensor_storage(prefix + name, dummy->type, dummy->ne, ggml_n_dims(dummy), file_index, offset);
 
         GGML_ASSERT(ggml_nbytes(dummy) == tensor_storage.nbytes());
@@ -1356,7 +1357,6 @@ std::vector<TensorStorage> remove_duplicates(const std::vector<TensorStorage>& v
 bool ModelLoader::load_tensors(on_new_tensor_cb_t on_new_tensor_cb, ggml_backend_t backend) {
     std::vector<TensorStorage> processed_tensor_storages;
     for (auto& tensor_storage : tensor_storages) {
-        // LOG_DEBUG("%s", name.c_str());
 
         if (is_unused_tensor(tensor_storage.name)) {
             continue;
